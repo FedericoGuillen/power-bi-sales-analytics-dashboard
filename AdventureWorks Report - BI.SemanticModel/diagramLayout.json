@@ -1,0 +1,425 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 1385.236858882361,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 911.63547076603936,
+            "y": 0
+          },
+          "nodeIndex": "Territory Lookup",
+          "nodeLineageTag": "b8956ffe-64a2-4502-b5ef-f96b3bd2a8aa",
+          "size": {
+            "height": 203.65445634792371,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1198.5057511884061,
+            "y": 0
+          },
+          "nodeIndex": "Product Lookup",
+          "nodeLineageTag": "f3e57103-d771-4dd2-98a9-21563f202e6e",
+          "size": {
+            "height": 201.95238203917955,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1497.4430750672925,
+            "y": 235.06421023005203
+          },
+          "nodeIndex": "Product Categories Lookup",
+          "nodeLineageTag": "9cb07ad1-21a7-421e-a559-9e3a8a34d24b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1497.6513745607735,
+            "y": 0
+          },
+          "nodeIndex": "Product Subcategories Lookup",
+          "nodeLineageTag": "f6cc488a-fc85-44f0-ae1a-e2053ec15f09",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 638.856774542958,
+            "y": 0
+          },
+          "nodeIndex": "Customer Lookup",
+          "nodeLineageTag": "aafeb213-0789-4d88-953e-1a4424393677",
+          "size": {
+            "height": 200.69536129609213,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 355.23901519735387,
+            "y": 1.2570207430874429
+          },
+          "nodeIndex": "Calendar Lookup",
+          "nodeLineageTag": "9e35a260-19ff-4a14-acc9-235b26cef8ce",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 639.39389255592175,
+            "y": 337.34125653998171
+          },
+          "nodeIndex": "Sales Data",
+          "nodeLineageTag": "2fd70d3b-c5ea-49e9-b721-3c9782d51cb5",
+          "size": {
+            "height": 303.00532923925573,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 917.65791657370414,
+            "y": 334.01423299094353
+          },
+          "nodeIndex": "Returns Data",
+          "nodeLineageTag": "255d3c97-58a6-4d6f-85ff-05be387af586",
+          "size": {
+            "height": 309.41915433273164,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 101.8186801900828,
+            "y": 0
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "725948b2-c2f0-4f25-ad22-3a0dd082f857",
+          "size": {
+            "height": 486.13430589858228,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 1829.4181627980961,
+            "y": 52.5891007759073
+          },
+          "nodeIndex": "Price Adjustment (%)",
+          "nodeLineageTag": "77e7d73d-712c-485e-b0d8-f55604878c26",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1835.6165785757712,
+            "y": 627.85099956042
+          },
+          "nodeIndex": "Product Metric Selection",
+          "nodeLineageTag": "8ac2648d-67e2-4f84-83f8-537586c118d4",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1831.7588284087471,
+            "y": 290.96944041298548
+          },
+          "nodeIndex": "Customer Metric Selection",
+          "nodeLineageTag": "b2e03b21-8a16-4524-ab5a-e9d1701635ae",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2078.0482444773529,
+            "y": 56.593374767846854
+          },
+          "nodeIndex": "Time Intelligence",
+          "nodeLineageTag": "5db552b1-dd02-4e07-a07d-18013378ba01",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1834.0994940193978,
+            "y": 459.41021998670266
+          },
+          "nodeIndex": "Measure Selector",
+          "nodeLineageTag": "bbe6e806-2d39-451d-9d84-05ec764d2c01",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2260.22956428727,
+            "y": 289.92549978021
+          },
+          "nodeIndex": "Model Measures",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2442.4108840971871,
+            "y": 289.92549978021
+          },
+          "nodeIndex": "Model Tables",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2624.5922039071042,
+            "y": 289.92549978021
+          },
+          "nodeIndex": "Model Columns",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2806.7735237170214,
+            "y": 289.92549978021
+          },
+          "nodeIndex": "Model Relationships",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 79.553182037699841,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 449.25019555842039,
+            "y": 358.21370981176869
+          },
+          "nodeIndex": "Calendar Lookup",
+          "nodeLineageTag": "9e35a260-19ff-4a14-acc9-235b26cef8ce",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1359.5065844055368,
+            "y": 359.343052933491
+          },
+          "nodeIndex": "Customer Lookup",
+          "nodeLineageTag": "aafeb213-0789-4d88-953e-1a4424393677",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1437.640352112267,
+            "y": 0
+          },
+          "nodeIndex": "Product Categories Lookup",
+          "nodeLineageTag": "9cb07ad1-21a7-421e-a559-9e3a8a34d24b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 901.04174709426286,
+            "y": 0
+          },
+          "nodeIndex": "Product Lookup",
+          "nodeLineageTag": "f3e57103-d771-4dd2-98a9-21563f202e6e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1172.0479246126554,
+            "y": 0
+          },
+          "nodeIndex": "Product Subcategories Lookup",
+          "nodeLineageTag": "f6cc488a-fc85-44f0-ae1a-e2053ec15f09",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 899.2536543283037,
+            "y": 371.99335431998321
+          },
+          "nodeIndex": "Sales Data",
+          "nodeLineageTag": "2fd70d3b-c5ea-49e9-b721-3c9782d51cb5",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 906.250614903224,
+            "y": 750.42570279060908
+          },
+          "nodeIndex": "Territory Lookup",
+          "nodeLineageTag": "b8956ffe-64a2-4502-b5ef-f96b3bd2a8aa",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Sales View",
+      "zoomValue": 75.094836582707018,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 43
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 417.20815798663227,
+            "y": 531.85451372221291
+          },
+          "nodeIndex": "Returns Data",
+          "nodeLineageTag": "255d3c97-58a6-4d6f-85ff-05be387af586",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 853.7769402785633,
+            "y": 531.1860999829978
+          },
+          "nodeIndex": "Territory Lookup",
+          "nodeLineageTag": "b8956ffe-64a2-4502-b5ef-f96b3bd2a8aa",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 423.58718204999548,
+            "y": 69
+          },
+          "nodeIndex": "Calendar Lookup",
+          "nodeLineageTag": "9e35a260-19ff-4a14-acc9-235b26cef8ce",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 464.63419844531921
+          },
+          "nodeIndex": "Product Lookup",
+          "nodeLineageTag": "f3e57103-d771-4dd2-98a9-21563f202e6e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Returns View",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -1,0 +1,199 @@
+table 'Calendar Lookup'
+	excludeFromModelRefresh
+	lineageTag: 9e35a260-19ff-4a14-acc9-235b26cef8ce
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: 08762047-185d-4e27-a407-f26b73c4cfa2
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 92e8f299-1014-42b0-a415-bb37e5114a69
+		summarizeBy: none
+		sourceColumn: Day Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start of Week'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8f4afabd-30ff-4bc1-8767-c76ebbe236c0
+		summarizeBy: none
+		sourceColumn: Start of Week
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Start of Month'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 5b8a41a7-e8ea-4006-b70c-a97e96bc6c3f
+		summarizeBy: none
+		sourceColumn: Start of Month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Start of Quarter'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: a8772b1e-b331-4c92-b27c-7e3f2dd34011
+		summarizeBy: none
+		sourceColumn: Start of Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: 6d7cbd36-e2b6-4cb2-950c-1bb203c15ac7
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e54c46c-a5c0-43d0-b736-ead71afd6251
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start of Year'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 249bb05a-e4b2-44d3-872c-fcd5a2bafe16
+		summarizeBy: none
+		sourceColumn: Start of Year
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 02d0a5c1-d651-4f9b-a690-431eec04d9ed
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number (DAX)' = ```
+			
+			SWITCH(
+			    'Calendar Lookup'[Month Name],
+			    "January","1",
+			    "February","2",
+			    "March","3",
+			    "April","4",
+			    "May","5",
+			    "June","6",
+			    "July","7",
+			    "August","8",
+			    "September","9",
+			    "October","10",
+			    "November","11",
+			    "December","12",
+			    "Other"
+			)  
+			
+			```
+		lineageTag: 22c11861-15ab-466a-a683-80be7dce17af
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Short' =
+			
+			UPPER(LEFT(
+			    'Calendar Lookup'[Month Name],
+			    3
+			    )
+			)
+		lineageTag: c844b719-1773-43a3-b802-0beb637f7d5e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week' =
+			
+			WEEKDAY(
+			    'Calendar Lookup'[Date],
+			    2
+			)
+		formatString: 0
+		lineageTag: 9985c5ec-4360-4dc4-baeb-c2c444b8795e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekend =
+			
+			IF(
+			    'Calendar Lookup'[Day of Week] IN {6,7},
+			    "Weekend",
+			    "Weekday"
+			)
+		lineageTag: c24f457f-727a-4536-98b2-95b810ffbfeb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Date Hierarchy'
+		lineageTag: 0a189856-88a2-431a-a1da-0125c6ff8180
+
+		level 'Start of Year'
+			lineageTag: 6b022c51-5059-492a-841a-14b505dd8064
+			column: 'Start of Year'
+
+		level 'Start of Month'
+			lineageTag: 7fb6bdbe-898c-4d8d-9152-4a60a2f9aefc
+			column: 'Start of Month'
+
+		level 'Start of Week'
+			lineageTag: 9f931cc5-fa92-4a50-bd84-ea3b9074a878
+			column: 'Start of Week'
+
+		level Date
+			lineageTag: 2c64d964-b7fb-4dd3-979b-5396830eb8ed
+			column: Date
+
+	partition 'Calendar Lookup' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\bt56mh\OneDrive - Assurant, Inc\Desktop\Udemy\Udemy_Courses\Power_BI_Nov2026\AdventureWorks+Raw+Data\AdventureWorks Raw Data\AdventureWorks Calendar Lookup.csv"),[Delimiter=",", Columns=1, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}}),
+				    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Changed Type", {{"Date", type date}}, "en-US"),
+				    #"Inserted Day Name" = Table.AddColumn(#"Changed Type with Locale", "Day Name", each Date.DayOfWeekName([Date]), type text),
+				    #"Inserted Start of Week" = Table.AddColumn(#"Inserted Day Name", "Start of Week", each Date.StartOfWeek([Date],Day.Monday)),
+				    #"Inserted Start of Month" = Table.AddColumn(#"Inserted Start of Week", "Start of Month", each Date.StartOfMonth([Date]), type date),
+				    #"Inserted Start of Quarter" = Table.AddColumn(#"Inserted Start of Month", "Start of Quarter", each Date.StartOfQuarter([Date]), type date),
+				    #"Inserted Month Name" = Table.AddColumn(#"Inserted Start of Quarter", "Month Name", each Date.MonthName([Date]), type text),
+				    #"Inserted Month" = Table.AddColumn(#"Inserted Month Name", "Month", each Date.Month([Date]), Int64.Type),
+				    #"Inserted Start of Year" = Table.AddColumn(#"Inserted Month", "Start of Year", each Date.StartOfYear([Date]), type date),
+				    #"Inserted Year" = Table.AddColumn(#"Inserted Start of Year", "Year", each Date.Year([Date]), Int64.Type)
+				in
+				    #"Inserted Year"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

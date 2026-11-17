@@ -1,0 +1,4 @@
+EVALUATE
+	ROW(
+	"Total_Profit", '_Measures'[Total Profit]
+)

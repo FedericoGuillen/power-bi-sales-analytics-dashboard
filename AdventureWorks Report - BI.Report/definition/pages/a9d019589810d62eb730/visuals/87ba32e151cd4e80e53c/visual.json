@@ -1,0 +1,83 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "87ba32e151cd4e80e53c",
+  "position": {
+    "x": 193,
+    "y": 188,
+    "z": 0,
+    "height": 512,
+    "width": 865,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Model Measures"
+                    }
+                  },
+                  "Property": "Name"
+                }
+              },
+              "queryRef": "Model Measures.Name",
+              "nativeQueryRef": "Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Model Measures"
+                    }
+                  },
+                  "Property": "Description"
+                }
+              },
+              "queryRef": "Model Measures.Description",
+              "nativeQueryRef": "Description"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Model Measures"
+                    }
+                  },
+                  "Property": "Expression"
+                }
+              },
+              "queryRef": "Model Measures.Expression",
+              "nativeQueryRef": "Expression"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Model Measures"
+                  }
+                },
+                "Property": "Expression"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

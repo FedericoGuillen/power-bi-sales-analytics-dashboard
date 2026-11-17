@@ -1,0 +1,51 @@
+DEFINE
+	VAR __DS0Core = 
+		SUMMARIZECOLUMNS('Calendar Lookup'[Start of Month], "Total_Revenue", '_Measures'[Total Revenue])
+
+	VAR __DataTransformT0 = 
+		AI.SampleAndDetectAnomaly(
+			__DS0Core,
+			{("'Calendar Lookup'[Start of Month]", "TimeSeriesColumnRole"),
+				("[Total_Revenue]", "ValueColumnRole")},
+			{("'Calendar Lookup'[Start of Month]", BLANK()),
+				("[Total_Revenue]", BLANK()),
+				("ExpectedValueRole", "ExpectedValueRole"),
+				("ExpectedLowRole", "ExpectedLowRole"),
+				("ExpectedHighRole", "ExpectedHighRole"),
+				("RawScoreRole", "RawScoreRole"),
+				("AnomalyRole", "AnomalyRole"),
+				("BatchStartRole", "BatchStartRole"),
+				("BatchEndRole", "BatchEndRole")},
+			0.7,
+			BLANK(),
+			BLANK(),
+			BLANK(),
+			3500
+		)
+
+	VAR __DS0IntersectionCount = CALCULATE(COUNTROWS(__DataTransformT0))
+
+	VAR __DS0BodyBinnedSample = 
+		SAMPLEAXISWITHLOCALMINMAX(
+			4900,
+			__DataTransformT0,
+			'Calendar Lookup'[Start of Month],
+			[Total_Revenue],
+			3000,
+			,
+			ALPHABETICAL,
+			ASC,
+			900000,
+			60
+		)
+
+EVALUATE
+	ROW(
+	"DS0IntersectionCount", __DS0IntersectionCount
+)
+
+EVALUATE
+	__DS0BodyBinnedSample
+
+ORDER BY
+	'Calendar Lookup'[Start of Month]

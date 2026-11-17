@@ -1,0 +1,156 @@
+expression 'Largest Asset Management Firms' =
+		let
+		    Source = Web.BrowserContents("https://en.wikipedia.org/wiki/list_of_asset_management_firms"),
+		    #"Extracted Table From Html" = Html.Table(Source, {{"Column1", "TABLE[id='mwHQ'] > * > TR > :nth-child(1)"}, {"Column2", "TABLE[id='mwHQ'] > * > TR > :nth-child(2)"}, {"Column3", "TABLE[id='mwHQ'] > * > TR > :nth-child(3)"}}, [RowSelector="TABLE[id='mwHQ'] > * > TR"]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Extracted Table From Html",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Firm/company", type text}, {"AUM in 2025[2]", type text}, {"Country", type text}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type1",{"Firm/company", "Country", "AUM in 2025[2]"}),
+		    #"Added Custom" = Table.AddColumn(#"Reordered Columns", "Custom", each let
+		    valor = Text.Remove([#"AUM in 2025[2]"], "$"),
+		    numero = Number.From(Text.Start(valor, Text.Length(valor)-1)),
+		    sufijo = Text.End(valor,1)
+		in
+		    if sufijo = "T" then numero * 1000
+		    else if sufijo = "B" then numero
+		    else null),
+		    #"Renamed Columns" = Table.RenameColumns(#"Added Custom",{{"Custom", "AUM (billion USD)"}}),
+		    #"Reordered Columns1" = Table.ReorderColumns(#"Renamed Columns",{"Firm/company", "Country", "AUM (billion USD)", "AUM in 2025[2]"}),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Reordered Columns1",{{"AUM (billion USD)", Int64.Type}}),
+		    #"Added Index" = Table.AddIndexColumn(#"Changed Type2", "Index", 1, 1, Int64.Type),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Added Index",{{"Index", "Rank"}}),
+		    #"Reordered Columns2" = Table.ReorderColumns(#"Renamed Columns1",{"Rank", "Firm/company", "Country", "AUM (billion USD)", "AUM in 2025[2]"}),
+		    #"Filtered Rows" = Table.SelectRows(#"Reordered Columns2", each ([#"Firm/company"] <> null)),
+		    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows",{"AUM in 2025[2]"})
+		in
+		    #"Removed Columns"
+	lineageTag: 17b22d2e-a34b-4ddd-a7e3-632c309415b5
+	queryGroup: 'Demo Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Calendar Test Table' =
+		let
+		    FechaInicial = #date(2025, 1, 1),
+		    FechaFinal = Date.From(DateTime.LocalNow()),
+		    CantidadDias = Duration.Days(FechaFinal - FechaInicial) + 1,
+		    ListaFechas = List.Dates(
+		        FechaInicial,
+		        CantidadDias,
+		        #duration(1, 0, 0, 0)
+		    ),
+		    TablaFechas = Table.FromList(
+		        ListaFechas,
+		        Splitter.SplitByNothing(),
+		        {"Date"}
+		    ),
+		    TipoFecha = Table.TransformColumnTypes(
+		        TablaFechas,
+		        {{"Date", type date}}
+		    )
+		in
+		    TipoFecha
+	lineageTag: 32cc6892-cd93-431b-8041-e224628ff0a9
+	queryGroup: 'Demo Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Rolling Calendar' =
+		let
+		    Source = #date(2025,1,1),
+		    Custom1 = List.Dates(
+		    Source,
+		    Number.From(DateTime.LocalNow()) - Number.From(Source),
+		    #duration(1,0,0,0)
+		),
+		    #"Converted to Table" = Table.FromList(Custom1, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}),
+		    #"Inserted Year" = Table.AddColumn(#"Changed Type", "Year", each Date.Year([Date]), Int64.Type),
+		    #"Inserted Month" = Table.AddColumn(#"Inserted Year", "Month", each Date.Month([Date]), Int64.Type),
+		    #"Inserted Day" = Table.AddColumn(#"Inserted Month", "Day", each Date.Day([Date]), Int64.Type),
+		    #"Inserted Month Name" = Table.AddColumn(#"Inserted Day", "Month Name", each Date.MonthName([Date]), type text),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Inserted Month Name",{"Date", "Year", "Month", "Month Name", "Day"}),
+		    #"Inserted Day Name" = Table.AddColumn(#"Reordered Columns", "Day Name", each Date.DayOfWeekName([Date]), type text),
+		    #"Inserted Start of Week" = Table.AddColumn(#"Inserted Day Name", "Start of Week", each Date.StartOfWeek([Date], Day.Monday)),
+		    #"Inserted Quarter" = Table.AddColumn(#"Inserted Start of Week", "Quarter", each Date.QuarterOfYear([Date]), Int64.Type),
+		    #"Reordered Columns1" = Table.ReorderColumns(#"Inserted Quarter",{"Date", "Year", "Quarter", "Month", "Month Name", "Day", "Day Name", "Start of Week"})
+		in
+		    #"Reordered Columns1"
+	lineageTag: 9dc6841f-7057-4a7d-bead-0ea5ab5db8c1
+	queryGroup: 'Demo Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Product Category Sales (Unpivot Demo)' =
+		let
+		    Source = Csv.Document(File.Contents("C:\Users\bt56mh\OneDrive - Assurant, Inc\Desktop\Udemy\Udemy_Courses\Power_BI_Nov2026\AdventureWorks+Raw+Data\AdventureWorks Raw Data\Product Category Sales (Unpivot Demo).csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Product Category", type text}, {"North Region", Int64.Type}, {"Central Region", Int64.Type}, {"South Region", Int64.Type}}),
+		    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Changed Type", {"Date", "Product Category"}, "Attribute", "Value"),
+		    #"Renamed Columns" = Table.RenameColumns(#"Unpivoted Columns",{{"Attribute", "Region"}, {"Value", "Quantity Sold"}}),
+		    #"Pivoted Column" = Table.Pivot(#"Renamed Columns", List.Distinct(#"Renamed Columns"[Region]), "Region", "Quantity Sold", List.Sum)
+		in
+		    #"Pivoted Column"
+	lineageTag: e6b296b9-c703-4ada-a26c-a194d5aaea0c
+	queryGroup: 'Demo Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Parameter1 = #"Sample File" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: ff8a619e-bc07-493e-90d0-ab62978ee387
+	queryGroup: 'Transform File from Sales Data\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File' =
+		let
+		    Source = Csv.Document(Parameter1,[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 7bbf3d7c-8bce-4f9f-8fd7-1dcbce961b4a
+	queryGroup: 'Transform File from Sales Data'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File' =
+		let
+		    Source = Folder.Files("C:\Users\bt56mh\OneDrive - Assurant, Inc\Desktop\Udemy\Udemy_Courses\Power_BI_Nov2026\AdventureWorks+Raw+Data\AdventureWorks Raw Data\Sales Data"),
+		    #"C:\Users\bt56mh\OneDrive - Assurant, Inc\Desktop\Udemy\Udemy_Courses\Power_BI_Nov2026\AdventureWorks+Raw+Data\AdventureWorks Raw Data\Sales Data\_AdventureWorks Sales Data 2021 csv" = Source{[#"Folder Path"="C:\Users\bt56mh\OneDrive - Assurant, Inc\Desktop\Udemy\Udemy_Courses\Power_BI_Nov2026\AdventureWorks+Raw+Data\AdventureWorks Raw Data\Sales Data\",Name="AdventureWorks Sales Data 2021.csv"]}[Content]
+		in
+		    #"C:\Users\bt56mh\OneDrive - Assurant, Inc\Desktop\Udemy\Udemy_Courses\Power_BI_Nov2026\AdventureWorks+Raw+Data\AdventureWorks Raw Data\Sales Data\_AdventureWorks Sales Data 2021 csv"
+	lineageTag: 8754e1db-2ace-4341-b0da-f5977525125c
+	queryGroup: 'Transform File from Sales Data\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File' =
+		let
+		    Source = (Parameter1 as binary) => let
+		    Source = Csv.Document(Parameter1,[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File""}" ]
+	lineageTag: 2c331e18-61b6-4ce7-8662-23db86eaccfb
+	queryGroup: 'Transform File from Sales Data\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+
